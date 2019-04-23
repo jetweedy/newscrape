@@ -4,8 +4,9 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 
 const axios = require("axios");
-const PORT = 8080;
-const DBURL = "mongodb://localhost:27017/newscrape";
+const PORT = process.env.PORT || 8080;
+const DBURL = (PORT==8080) ? "mongodb://localhost:27017/newscrape" 
+	: "mongodb://heroku_vnmdzb0p:5sHTwWArWuTfEkt@ds145926.mlab.com:45926/heroku_vnmdzb0p";
 
 // --^ config stuff ^ --
 
