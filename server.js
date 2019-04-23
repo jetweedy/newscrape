@@ -61,7 +61,7 @@ app.get("/notes", (req, res) => {
 
 
 app.get("/articles", (req, res) => {
-  db.Article.find({})
+  db.Article.findMany({})
 	.populate('notes').exec()
     .then(dbArticles => {
       res.json(dbArticles);
