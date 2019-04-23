@@ -29,23 +29,22 @@ http://digg.com/api/channel/feed.json?full_text=false&format=json&position=0&slu
 actually works, but decided to mess with the web page to use cheerio instead
 */
 app.get("/scrape", (req, res) => {
-  axios.get("http://digg.com/channel/science").then(response => {
-    const $ = cheerio.load(response.data);
-    $(".digg-story__title-link").each((i, element) => {
-      const result = {};
-//      result.title = $(element).children("a").text();
-      result.link = $(element).attr("href");
-      result.title = $(element).text();
-      db.Article.create(result)
-        .then(dbArticle => {
-          console.log(dbArticle);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
-    res.send("Scrape Complete");
-  });
+	axios.get("http://digg.com/channel/science").then(response => {
+		const $ = cheerio.load(response.data);
+		$(".digg-story__title-link").each((i, element) => {
+			const result = {};
+				result.link = $(element).attr("href");
+				result.title = $(element).text();
+				db.Article.create(result)
+				.then(dbArticle => {
+				console.log(dbArticle);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		});
+		res.send("Scrape Complete");
+	});
 });
 
 

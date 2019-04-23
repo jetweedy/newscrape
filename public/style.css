@@ -5,6 +5,11 @@
 	padding:10px;
 }
 
+#pleasewait {
+	display:none;
+	width:200px;
+}
+
 .deleter {
 	margin-right:10px;
 }

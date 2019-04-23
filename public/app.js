@@ -55,6 +55,20 @@ function drawArticle(article) {
 	drawNotes(divNotes, article);
 }
 
+function scrapeArticles() {
+	$("#pleasewait").css("display","block");
+	$("#articles").empty();
+	$.get("/scrape/", (x) => {
+		$("#pleasewait").css("display","none");
+		loadArticles();
+	});
+}
+function clearArticles() {
+	$.get("/clear/", (x) => {
+		loadArticles();
+	});
+}
+
 function loadArticles() {
 	$("#articles").html("");
 	$.get("/articles/", (articles) => {
@@ -77,6 +91,7 @@ function addArticleNote(article_id, note_title, note_body) {
 			, { title: note_title, body: note_body}
 			, (res) => {
 				$("#commentForm").css("display", "none");
+				loadArticles();
 			}
 		);
 	} catch(err) { 
@@ -84,6 +99,12 @@ function addArticleNote(article_id, note_title, note_body) {
 	};
 }
 
+$("#btnClear").on("click", () => {
+	clearArticles();
+});
+$("#btnScrape").on("click", () => {
+	scrapeArticles();
+});
 $("#btnSubmitNote").on("click", () => {
 	addArticleNote($("#note_article_id").val(), $("#note_title").val(), $("#note_body").val()); 
 });
