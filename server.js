@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 const PORT = process.env.PORT || 8080;
 const DBURL = (PORT==8080) ? "mongodb://localhost:27017/newscrape" 
-	: "mongodb://heroku_vnmdzb0p:5sHTwWArWuTfEkt@ds145926.mlab.com:45926/heroku_vnmdzb0p";
+	: "mongodb://heroku_zzc88m7d:tJ9iw6PqUQgU3EF@ds145916.mlab.com:45916/heroku_zzc88m7d";
 
 // --^ config stuff ^ --
 
