@@ -5,8 +5,7 @@ const mongoose = require("mongoose");
 
 const axios = require("axios");
 const PORT = process.env.PORT || 8080;
-const DBURL = (PORT==8080) ? "mongodb://localhost:27017/newscrape" 
-	: "mongodb://heroku_zzc88m7d:tJ9iw6PqUQgU3EF@ds145916.mlab.com:45916/heroku_zzc88m7d";
+const DBURL = process.env.MONGOLAB_URI || "mongodb://localhost:27017/newscrape";
 
 // --^ config stuff ^ --
 
@@ -61,7 +60,7 @@ app.get("/notes", (req, res) => {
 
 
 app.get("/articles", (req, res) => {
-  db.Article.findMany({})
+  db.Article.find({})
 	.populate('notes').exec()
     .then(dbArticles => {
       res.json(dbArticles);
