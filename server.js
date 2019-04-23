@@ -49,28 +49,26 @@ app.get("/scrape", (req, res) => {
 });
 
 
-
-app.get("/articles", (req, res) => {
-  db.Article.find({})
-    .then(dbArticle => {
-      res.json(dbArticle);
+app.get("/notes", (req, res) => {
+  db.Note.find({})
+    .then(dbNote => {
+      res.json(dbNote);
     })
     .catch(err => {
       res.json(err);
     });
 });
 
-app.get("/clear", (req, res) => {
-	try {
-		db.Note.remove({}, function() {
-			db.Article.remove({}, function() {
-				res.send({success:"cleared"});
-			});
-		});
-	} catch(er) {
-		console.log(er);
-		res.json({error:er});
-	}
+
+app.get("/articles", (req, res) => {
+  db.Article.find({})
+	.populate('notes').exec()
+    .then(dbArticles => {
+      res.json(dbArticles);
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
 
 
@@ -116,12 +114,14 @@ app.get("/clear", (req, res) => {
 
 
 
-// To test: need an html form to post from
+
+
 // HELP: https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
 app.post("/article/:id/comment", (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, {$push:{ notes: dbNote._id }}, { new: true });
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, {$push:{ notes: dbNote._id }});
+//      return db.Article.findOneAndUpdate({ _id: req.params.id }, { notes: dbNote._id }, { new: true });
     })
     .then(dbArticle => {
       res.json(dbArticle);
@@ -130,7 +130,6 @@ app.post("/article/:id/comment", (req, res) => {
       res.json(err);
     });
 });
-
 
 
 

@@ -10,11 +10,24 @@
     <div id="container">
 		<h1>NewScrape</h1>
 		<h2>Articles</h2>
-		<div id="articles">
-
-			
-				
+		<div id="commentForm">
+			<p>
+				<a href="javascript:;" id="btnCloseCommentForm">[X]</a>
+			</p>
+			<input type="text" id="note_article_id" />
+			<p>
+				Title:<br />
+				<input type="text" id="note_title" />
+			</p>
+			<p>
+				Comments:<br />
+				<textarea id="note_body"></textarea>
+			</p>
+			<p>
+				<button id="btnSubmitNote">Save</button>
+			</p>
 		</div>
+		<div id="articles"></div>
 	</div>
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>	
