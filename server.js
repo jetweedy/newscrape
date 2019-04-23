@@ -73,6 +73,34 @@ app.get("/clear", (req, res) => {
 	}
 });
 
+
+app.get("/article/:id", (req, res) => {
+  db.Article.findOne({ _id: req.params.id })
+    .then(dbArticle => {
+      res.json(dbArticle);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+
+app.get("/article/:article_id/note/:note_id/delete", (req, res) => {
+	try {
+		db.Note.deleteMany({_id: req.params.id}, function() {
+			db.Article.findOneAndUpdate({ _id: req.params.article_id }
+				, {$pull:{ notes: req.params.note_id }}).then(dbArticle => {
+					res.json({success:"deleted"});
+				}).catch(er =>{
+					console.log(er);
+				});
+		});
+	} catch(er) {
+		console.log(er);
+		res.json(er);
+	}
+});
+
 app.get("/clear", (req, res) => {
 	try {
 		db.Note.remove({}, function() {
@@ -87,24 +115,13 @@ app.get("/clear", (req, res) => {
 });
 
 
-app.get("/article/:id", (req, res) => {
-  db.Article.findOne({ _id: req.params.id })
-    .populate("notes")
-    .then(dbArticle => {
-      res.json(dbArticle);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
-
 
 // To test: need an html form to post from
 // HELP: https://stackoverflow.com/questions/33049707/push-items-into-mongo-array-via-mongoose
-app.post("/article/comment", (req, res) => {
+app.post("/article/:id/comment", (req, res) => {
   db.Note.create(req.body)
     .then(dbNote => {
-      return db.Article.findOneAndUpdate({ _id: req.body.article_id }, {$push:{ notes: dbNote._id }}, { new: true });
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, {$push:{ notes: dbNote._id }}, { new: true });
     })
     .then(dbArticle => {
       res.json(dbArticle);
