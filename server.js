@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const path = require("path");
 const express = require("express");
 const logger = require("morgan");
@@ -5,7 +7,7 @@ const mongoose = require("mongoose");
 
 const axios = require("axios");
 const PORT = process.env.PORT || 8080;
-const DBURL = process.env.MONGOLAB_URI || "mongodb://localhost:27017/newscrape";
+const DBURL = process.env.MONGODB_URI || "mongodb://localhost:27017/newscrape";
 
 // --^ config stuff ^ --
 
