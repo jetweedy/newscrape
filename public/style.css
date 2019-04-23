@@ -5,7 +5,9 @@
 	padding:10px;
 }
 
-
+.deleter {
+	margin-right:10px;
+}
 
 #commentForm textarea, #commentForm input[type="text"] {
 	width:90%;

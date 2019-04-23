@@ -1,13 +1,38 @@
 
+function deleteNote(article_id, note_id) {
+	if (confirm("Are you sure you want to delete this Note?")) {
+		try {
+			$.get("/article/"+article_id+"/note/"+note_id+"/delete"
+				, (res) => {
+					loadArticles();
+				}
+			);
+		} catch(err) { 
+			alert(err);
+		};
+		loadArticles();
+	}
+}
+
 function drawNotes(container, article) {
-	console.log(article.notes);
-	return;
-	
-	let div = $("<div>").addClass("note");
-	let strong = $("<strong>").text("Title");
-	div.text("blah");
-	container.append(div);
-	
+	container.empty();
+	if (article.notes.length > 0) {
+		let h = $("<h3>").text("Notes");
+		container.append(h);
+		for (let n in article.notes) {
+			let div = $("<div>").addClass("note");
+			let strong = $("<strong>").text(article.notes[n].title);
+			let a = $("<a>").attr("href", "javascript:;").addClass("deleter").text("[X]");
+			a.on("click", () => {
+				deleteNote(article._id, article.notes[n]._id);
+			});
+			strong.prepend(a);
+			let p = $("<p>").text(article.notes[n].body);
+			div.append(strong);
+			div.append(p);
+			container.append(div);
+		}
+	}
 }
 
 
