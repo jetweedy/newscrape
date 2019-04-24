@@ -33,12 +33,13 @@ actually works, but decided to mess with the web page to use cheerio instead
 app.get("/scrape", (req, res) => {
 	axios.get("http://digg.com/channel/science").then(response => {
 		const $ = cheerio.load(response.data);
-		$(".digg-story__title-link").each((i, element) => {
-			const result = {};
-				result.link = $(element).attr("href");
-				result.title = $(element).text();
-				db.Article.create(result)
-				.then(dbArticle => {
+		$(".digg-story__content").each((i, element) => {
+			let result = {};
+			result.summary = $(element).find(".js--digg-story__ellipsis-truncate").text();
+			result.link = $(element).find(".digg-story__title-link").attr("href");
+			result.title = $(element).find(".digg-story__title-link").text();
+//			console.log(result);
+			db.Article.create(result).then(dbArticle => {
 				console.log(dbArticle);
 			})
 			.catch(err => {

@@ -43,8 +43,8 @@ function drawArticle(article) {
 	header.append(ahref);
 	div.append(header);
 	$("#articles").append(div);
-	
-	
+	let p = $("<p>").text(article.summary);
+	div.append(p);
 	let btnAddNote = $("<button>").text("Add Note").addClass("open-button");
 	div.append(btnAddNote);
 	btnAddNote.on("click", () => {
@@ -59,8 +59,8 @@ function scrapeArticles() {
 	$("#pleasewait").css("display","block");
 	$("#articles").empty();
 	$.get("/scrape/", (x) => {
-		$("#pleasewait").css("display","none");
 		loadArticles();
+		$("#pleasewait").css("display","none");
 	});
 }
 function clearArticles() {
